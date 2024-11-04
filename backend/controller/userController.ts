@@ -211,7 +211,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     const token = jwt.sign(
       { userId: user._id.toString(), email: user.email, isAdmin: user.isAdmin },
       process.env.JWT_SECRET as string,
-      { expiresIn: '1h' }
+      { expiresIn: '2h' }
     );
 
     // Send back response
@@ -764,7 +764,7 @@ export const saveOrder = async (req: Request, res: Response) => {
       })),
       totalAmount,
       paymentMethod,
-      paymentId: paymentMethod === 'cod' ? 'cod' : paymentId, // No paymentId for COD
+      paymentId:  paymentId, // No paymentId for COD
       paymentStatus: paymentMethod === 'cod' ? 'pending' : 'paid', // Set status as pending for COD
       orderStatus: 'placed',
     });
@@ -788,7 +788,41 @@ export const saveOrder = async (req: Request, res: Response) => {
 
 
 
-export const getOrderDetails = async (req: Request, res: Response) => {
+// export const getOrderDetails = async (req: Request, res: Response) => {
+//   const { paymentId } = req.params;
+
+//   console.log(`Received request to fetch order details for Payment ID: ${paymentId}`);
+
+//   try {
+//     // Log that the query is being made to the database
+//     console.log('Searching for the order in the database...');
+
+//     // Find the order in the database by paymentId
+//     const order = await Order.findOne({ paymentId })
+//       .populate('address') // Assuming 'address' is a reference field in the Order schema
+//       .populate('foodItems'); // Assuming 'foodItems' is an array of references to FoodItem documents
+
+//     // Log the result of the database query
+//     if (!order) {
+//       console.log(`Order with Payment ID ${paymentId} not found.`);
+//       return res.status(404).json({ message: 'Order not found' });
+//     }
+
+//     console.log(`Order found: ${JSON.stringify(order)}`);
+
+//     // Return the order details
+//     console.log(`Returning order details for Payment ID: ${paymentId}`);
+//     return res.status(200).json(order);
+//   } catch (error) {
+//     // Log the error in case something goes wrong
+//     console.error(`Error occurred while fetching order details for Payment ID: ${paymentId}`);
+//     console.error('Error details:', error);
+//     return res.status(500).json({ message: 'Server error' });
+//   }
+// };
+
+
+export const getOrderDetailss = async (req: Request, res: Response) => {
   const { paymentId } = req.params;
 
   console.log(`Received request to fetch order details for Payment ID: ${paymentId}`);
@@ -797,12 +831,19 @@ export const getOrderDetails = async (req: Request, res: Response) => {
     // Log that the query is being made to the database
     console.log('Searching for the order in the database...');
 
-    // Find the order in the database by paymentId
-    const order = await Order.findOne({ paymentId })
-      .populate('address') // Assuming 'address' is a reference field in the Order schema
-      .populate('foodItems'); // Assuming 'foodItems' is an array of references to FoodItem documents
+   
+    // const order = await Order.findOne({ paymentId })
+    //   .populate('address') 
+    //   .populate('foodItems'); 
+    const order = await Order.find({ paymentId }) // Filter by restaurant ID in foodItems
+    .populate('user', 'name email phoneNumber') // Populate user data
+    .populate('address') // Populate address data
+    .populate({
+      path: 'foodItems.foodItem',
+      select: 'name category cuisine price'
+    }); 
 
-    // Log the result of the database query
+ 
     if (!order) {
       console.log(`Order with Payment ID ${paymentId} not found.`);
       return res.status(404).json({ message: 'Order not found' });
@@ -821,13 +862,33 @@ export const getOrderDetails = async (req: Request, res: Response) => {
   }
 };
 
+// export const getFoodItemByIddd = async (req: Request, res: Response) => {
+//   const { id } = req.params;
+
+//   try {
+//     // Fetch the food item from the database
+//     const foodItem = await FoodItem.findById(id);
+
+//     if (!foodItem) {
+//       return res.status(404).json({ message: 'Food item not found' });
+//     }
+
+//     res.json(foodItem);
+//   } catch (error) {
+//     console.error('Error fetching food item:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// };
+
 
 export const getFoodItemByIddd = async (req: Request, res: Response) => {
   const { id } = req.params;
+  console.log(id,"44444411111")
 
   try {
     // Fetch the food item from the database
-    const foodItem = await FoodItem.findById(id);
+    const foodItem = await FoodItem.findOne({name:id});
+    
 
     if (!foodItem) {
       return res.status(404).json({ message: 'Food item not found' });
@@ -839,6 +900,7 @@ export const getFoodItemByIddd = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 export const getOrdersByUserId = async (req: Request, res: Response) => {
   try {

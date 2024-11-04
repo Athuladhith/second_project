@@ -1,7 +1,8 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 // Define the interface for DeliveryPerson document
-interface IDeliveryPerson extends Document {
+export interface IDeliveryPerson extends Document {
+    _id:string;
     name: string;
     email: string;
     phoneNumber: string;

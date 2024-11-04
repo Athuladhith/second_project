@@ -715,3 +715,26 @@ export const getOrderstorestaurant = async (req: Request, res: Response) => {
   }
 };
 
+// export const getOrderstorestaurant = async (req: Request, res: Response) => {
+//   try {
+//     const { id } = req.params; // restaurant ID from frontend
+//     console.log(id, 'restaurant ID from frontend');
+
+//     // Find all orders that contain food items associated with this restaurant
+//     const orders = await Order.find({ "foodItems.restaurant": id }) // Filter by restaurant ID in foodItems
+//       .populate('user', 'name email phoneNumber') // Populate user data
+//       .populate('address', 'street city state postalCode country') // Populate address data
+//       .populate({
+//         path: 'foodItems.foodItem',
+//         select: 'name category cuisine price'
+//       }); // Populate food item data
+      
+
+//     console.log(orders, 'orders from backend');
+
+//     res.status(200).json(orders);
+//   } catch (error) {
+//     console.error('Error fetching orders:', error);
+//     res.status(500).json({ message: 'Failed to fetch orders' });
+//   }
+// };

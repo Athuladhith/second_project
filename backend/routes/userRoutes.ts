@@ -2,7 +2,7 @@ import express from 'express';
 import authenticateJWT from '../middlewares/Authmiddleware'
 import { registerUser,verifyOtp,googleregister,login,getFoodItemsByCategory,getRestaurantById,getFoodItemsByRestaurant,
     updateProfile,addToCart,getCartItemsByUserId,getFoodItemById,clearCart,removeCartItem,updateCartItem,getAddresses, addAddress,
-    createOrder,getOrderDetails,saveOrder,getFoodItemByIddd,getOrdersByUserId} from '../controller/userController';
+    createOrder,getOrderDetailss,saveOrder,getFoodItemByIddd,getOrdersByUserId} from '../controller/userController';
     // import { authMiddleware } from '../middlewares/Authmiddleware';
 const router = express.Router();
 
@@ -36,7 +36,7 @@ router.post('/address',authenticateJWT,  addAddress);
 
 router.post('/createOrder',authenticateJWT, createOrder)
 
-router.get('/orders/:paymentId',authenticateJWT, getOrderDetails);
+router.get('/orders/:paymentId',authenticateJWT, getOrderDetailss);
 
 router.post('/saveOrder',authenticateJWT,saveOrder)
 
