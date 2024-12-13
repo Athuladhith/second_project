@@ -25,6 +25,7 @@ export const adminlogin = async (req: Request, res: Response): Promise<void> => 
  
     if (user.password && (await bcrypt.compare(password, user.password))) {
       console.log('Password matched for user:', user.email);
+      //hrkki
 
     
       if (user.isAdmin === true) {
