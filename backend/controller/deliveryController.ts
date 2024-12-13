@@ -5,6 +5,8 @@ import DeliveryPerson from '../models/deliveryModel';
 import Order from '../models/orderModel'
 import {IDeliveryPerson} from '../models/deliveryModel'
 import jwt, { SignOptions } from 'jsonwebtoken'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const storage: StorageEngine = multer.memoryStorage();
 const upload: Multer = multer({ storage });
@@ -103,12 +105,14 @@ export const getDeliveryPersons = async (req: Request, res: Response): Promise<v
         res.status(400).json({ message: 'Wrong password' });
         return;
       }
+        // Ensure JWT_SECRET is defined
+       
       const token = jwt.sign(
         {
           deliveryboyid: deliveryperson._id, 
           email: deliveryperson.email,
         },
-        'your_jwt_secret_key_here',
+        process.env.JWT_SECRET as string,
         { expiresIn: '2h' } as SignOptions
       );
       res.status(200).json({

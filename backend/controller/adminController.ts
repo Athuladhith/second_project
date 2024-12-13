@@ -2,9 +2,12 @@ import { Request, Response } from 'express';
 import User, { IUser } from '../models/userModel';
 import bcrypt from 'bcryptjs';
 import jwt, { SignOptions } from 'jsonwebtoken';
+import dotenv from 'dotenv'
 import Category from '../models/categoryModel';
 import Restaurant from '../models/restaurantModel'
 import Order from '../models/orderModel';
+
+dotenv.config()
 export const adminlogin = async (req: Request, res: Response): Promise<void> => {
   const { email, password } = req.body;
 
@@ -26,11 +29,11 @@ export const adminlogin = async (req: Request, res: Response): Promise<void> => 
     
       if (user.isAdmin === true) {
         console.log('User is admin:', user.email);
-
+  
       
         const token = jwt.sign(
           { userId: user._id.toHexString(), email: user.email },
-          'your_jwt_secret_key_here',
+          process.env.JWT_SECRET as string,
           { expiresIn: '1h' } as SignOptions
         );
 
