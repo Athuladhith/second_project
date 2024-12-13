@@ -1,16 +1,23 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IRestaurant extends Document {
-  _id: mongoose.Types.ObjectId; // Add this line
+  _id: mongoose.Types.ObjectId; 
   restaurantName: string;
   ownerName: string;
   email: string;
   phoneNumber: string;
   address: string;
-  password: string; // Hashed password
-  avatar: string; // Base64 encoded string or path to avatar image
+  password: string;
+  avatar: string;
   isBlocked: boolean;
   isVerified: boolean;
+  reports: IReport[];
+
+}
+
+export interface IReport {
+  userId: mongoose.Types.ObjectId;
+  reportedAt: Date;
 }
 
 const RestaurantSchema: Schema = new Schema({
@@ -51,6 +58,12 @@ const RestaurantSchema: Schema = new Schema({
     type: Boolean,
     default: false,
   },
+  reports: [
+    {
+      userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+      reportedAt: { type: Date, default: Date.now },
+    },
+  ]
 });
 
 const Restaurant = mongoose.model<IRestaurant>('Restaurant', RestaurantSchema);

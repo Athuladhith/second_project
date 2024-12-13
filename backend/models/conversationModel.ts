@@ -1,20 +1,22 @@
-import { Schema, model, Document, Types } from 'mongoose';
 
-// Define an interface for Conversation Document
+
+
+import mongoose, { Document, Schema, Model } from 'mongoose';
+
 interface IConversation extends Document {
-  restaurantId: Types.ObjectId;
-  userId: Types.ObjectId;
-  createdAt: Date;
+  restaurantId: string;
+  userId: string;
 }
 
-// Define the schema with types
-const conversationSchema = new Schema<IConversation>({
-  restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant', required: true },
-  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  createdAt: { type: Date, default: Date.now },
-});
+const ConversationSchema: Schema = new Schema(
+  {
+    restaurantId: { type: Schema.Types.ObjectId, ref: 'Restaurant', required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  },
+  { timestamps: true }
+);
 
-// Create the model from the schema
-const Conversation = model<IConversation>('Conversation', conversationSchema);
+const Conversation: Model<IConversation> = mongoose.model<IConversation>('Conversation', ConversationSchema);
 
 export default Conversation;
+export { IConversation };
