@@ -7,7 +7,7 @@ export interface IFoodItem extends Document {
   category: mongoose.Types.ObjectId;
   cuisine: mongoose.Types.ObjectId;
   image: string; 
-  restaurant: mongoose.Types.ObjectId// Base64 encoded string or path to the image
+  restaurant: mongoose.Types.ObjectId
   foodType: 'Veg' | 'Non-Veg';
 }
 
@@ -45,7 +45,7 @@ const FoodItemSchema: Schema = new Schema({
   },
   foodType: {
     type: String,
-    enum: ['Veg', 'Non-Veg'], // Only allows these two values
+    enum: ['Veg', 'Non-Veg'],
     required: true,
   },
  

@@ -1,17 +1,17 @@
 import mongoose, { Document, Schema, Types } from 'mongoose';
 
-// Define the interface for Address document
+
 export interface IAddress extends Document {
-  user: Types.ObjectId;  // Reference to the User model
+  user: Types.ObjectId; 
   street: string;
   city: string;
   state: string;
   postalCode: string;
   country: string;
-  isDefault?: boolean;  // Whether this address is the default one
+  isDefault?: boolean; 
 }
 
-// Create the schema for Address
+
 const addressSchema: Schema = new Schema({
   user: {
     type: mongoose.Types.ObjectId,
@@ -46,7 +46,6 @@ const addressSchema: Schema = new Schema({
   timestamps: true,
 });
 
-// Create the model from the schema and export it
 const Address = mongoose.model<IAddress>('Address', addressSchema);
 
 export default Address;

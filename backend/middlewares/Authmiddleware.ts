@@ -22,7 +22,7 @@ const authenticateJWT = (req: AuthenticatedRequest, res: Response, next: NextFun
 
     const decoded = decodedToken as IJwtPayload;
 
-    // Attach the decoded JWT payload to req.user
+   
     req.user = {
       _id: decoded.userId,
       email: decoded.email,

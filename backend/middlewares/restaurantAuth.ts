@@ -22,7 +22,7 @@ const restaurantauthenticateJWT = (req: AuthenticatedRequest, res: Response, nex
 
     const decoded = decodedToken as IJwtPayload;
 
-    // Attach the decoded JWT payload to req.user
+
     req.user = {
       _id: decoded.userId,
       email: decoded.email,

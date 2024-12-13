@@ -2,8 +2,9 @@ import express from 'express';
 import authenticateJWT from '../middlewares/Authmiddleware'
 import { registerUser,verifyOtp,googleregister,login,getFoodItemsByCategory,getRestaurantById,getFoodItemsByRestaurant,
     updateProfile,addToCart,getCartItemsByUserId,getFoodItemById,clearCart,removeCartItem,updateCartItem,getAddresses, addAddress,
-    createOrder,getOrderDetailss,saveOrder,getFoodItemByIddd,getOrdersByUserId} from '../controller/userController';
-    // import { authMiddleware } from '../middlewares/Authmiddleware';
+    createOrder,getOrderDetailss,saveOrder,getFoodItemByIddd,getOrdersByUserId, getMessages,reportRestaurant,makeorderupdate,getOrderdetails,getRestaurantss,getMessagesByConversation,sendMessage,getConversationsByUser,createConversation,
+} from '../controller/userController';
+  
 const router = express.Router();
 
 router.post('/signup', registerUser);
@@ -11,9 +12,9 @@ router.post('/verify-otp',verifyOtp)
 router.post('/googlesignup',googleregister)
 router.post('/login',login)
 router.get('/fooditem',authenticateJWT, getFoodItemsByCategory)
-router.get('/restaurant/:id',authenticateJWT, getRestaurantById);
+router.get('/restaurant/:id', getRestaurantById);
 
-// Define route to get food items by restaurant ID
+
 router.get('/fooditems',authenticateJWT, getFoodItemsByRestaurant);
 router.post('/update-profile',authenticateJWT, updateProfile);
 
@@ -28,9 +29,9 @@ router.delete('/removeItem',authenticateJWT, removeCartItem)
 
 router.post('/updatecartitem',authenticateJWT, updateCartItem);
 
-router.get('/addresses/:id',authenticateJWT, getAddresses);
+router.get('/addresses/:id', getAddresses);
 
-// Route to add a new address
+
 router.post('/address',authenticateJWT,  addAddress);
 
 
@@ -40,9 +41,20 @@ router.get('/orders/:paymentId',authenticateJWT, getOrderDetailss);
 
 router.post('/saveOrder',authenticateJWT,saveOrder)
 
-router.get('/:id',authenticateJWT, getFoodItemByIddd)
+router.get('/:name',authenticateJWT, getFoodItemByIddd)
 
 router.get('/orderss/:userId',authenticateJWT, getOrdersByUserId);
+router.get('/orderdetails/:orderId',authenticateJWT,getOrderdetails);
+router.get('/restaurantss',authenticateJWT,getRestaurantss)
+
+router.post('/conversations', createConversation); 
+router.get('/:userId', getConversationsByUser);
+
+router.post('/messages', sendMessage); 
+router.get('/messages/:conversationId', getMessagesByConversation);
+router.get('/getmessages', getMessages)
+
+router.post('/report/:id',reportRestaurant)
 
 
 

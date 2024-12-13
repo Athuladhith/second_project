@@ -1,20 +1,20 @@
 import { Document, model, Schema, Types } from 'mongoose';
 
-// Define the IUser interface to represent the user document
+
 export interface IUser extends Document {
-  _id: Types.ObjectId; // Explicitly define _id as ObjectId
+  _id: Types.ObjectId;
   name: string;
   email: string;
   password: string;
   phoneNumber: string;
   isAdmin?: boolean;
-  avatar?: string; // Add avatar field
-  isBlocked: boolean; // Add isBlocked field
-  isVerified: boolean; // Add isVerified field
-  addresses: Types.ObjectId[]; // Define addresses as an array of ObjectIds
+  avatar?: string;
+  isBlocked: boolean; 
+  isVerified: boolean; 
+  addresses: Types.ObjectId[]; 
 }
 
-// Define the schema for the user model
+
 const userSchema = new Schema<IUser>({
   name: {
     type: String,
@@ -30,7 +30,7 @@ const userSchema = new Schema<IUser>({
     required: true,
   },
   phoneNumber: {
-    type: String, // Store phone number as a string
+    type: String,
     required: true,
   },
   isAdmin: {
@@ -38,23 +38,22 @@ const userSchema = new Schema<IUser>({
     default: false,
   },
   avatar: {
-    type: String, // Store avatar as a base64 string or URL
+    type: String,
   },
   isBlocked: {
     type: Boolean,
-    default: false, // Default to false (not blocked)
+    default: false,
   },
   isVerified: {
     type: Boolean,
-    default: false, // Default to false (not verified)
+    default: false, 
   },
   addresses: [{
-    type: Types.ObjectId, // Use Types.ObjectId for referencing Address model
+    type: Types.ObjectId, 
     ref: 'Address',
   }],
 });
 
-// Create the model from the schema
 const User = model<IUser>('User', userSchema);
 
-export default User; // Export the User model
+export default User;

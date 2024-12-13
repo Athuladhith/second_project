@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-// Define the interface for DeliveryPerson document
+
 export interface IDeliveryPerson extends Document {
     _id:string;
     name: string;
@@ -13,7 +13,7 @@ export interface IDeliveryPerson extends Document {
     isVerified:boolean;
 }
 
-// Create a schema for DeliveryPerson
+
 const deliveryPersonSchema: Schema = new Schema({
     name: {
         type: String,
@@ -44,17 +44,17 @@ const deliveryPersonSchema: Schema = new Schema({
     },
     isBlocked: {
         type: Boolean,
-        default: false, // Default to false (not blocked)
+        default: false,
       },
       isVerified: {
         type: Boolean,
-        default: false, // Default to false (not verified)
+        default: false, 
       },
 }, {
-    timestamps: true, // Automatically add createdAt and updatedAt timestamps
+    timestamps: true, 
 });
 
-// Create the model from the schema and export it
+
 const DeliveryPerson = mongoose.model<IDeliveryPerson>('DeliveryPerson', deliveryPersonSchema);
 
 export default DeliveryPerson;
