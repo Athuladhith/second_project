@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import multer, { Multer, StorageEngine } from 'multer';
 import User, { IUser } from '../models/userModel';
 import jwt, { SignOptions } from 'jsonwebtoken';
+import dotenv from 'dotenv'
 import { sendEmail } from '../services/emailServices'; 
 import FoodItem from '../models/fooditemModel';
 import Restaurant from '../models/restaurantModel';
@@ -15,7 +16,7 @@ import Message, { IMessage } from '../models/messageModel'
 import Conversation, { IConversation } from '../models/conversationModel';
 import mongoose from 'mongoose';
 import Razorpay from 'razorpay';
-
+dotenv.config()
 
 
 const storage = multer.memoryStorage();

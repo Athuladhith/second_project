@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import multer, { Multer, StorageEngine } from 'multer';
 import Restaurant from '../models/restaurantModel'
 import jwt, { SignOptions } from 'jsonwebtoken'
+import dotenv from 'dotenv'
 import { IRestaurant } from '../models/restaurantModel';
 import Category from '../models/categoryModel';
 import Cuisine from '../models/cuisineModel'
@@ -13,7 +14,7 @@ import mongoose from 'mongoose';
 import Order from '../models/orderModel';
 import path from 'path';
 import fs from 'fs'
-
+dotenv.config()
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -101,11 +102,12 @@ export const restaurantlogin = async (req: Request, res: Response): Promise<void
       return;
     }
 
+  // Ensure JWT_SECRET is defined
 
     if (restaurant.password && (await bcrypt.compare(password, restaurant.password))) {
       const token = jwt.sign(
         { userId: restaurant._id.toHexString(), email: restaurant.email },
-        'your_jwt_secret_key_here', 
+        process.env.JWT_SECRET as string, 
         { expiresIn: '1h' } as SignOptions
       );
 
